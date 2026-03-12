@@ -29,6 +29,8 @@ def main():
     parser.add_argument("-t", "--threads", help="Number of concurrent threads", type=int, default=10)
     parser.add_argument("-d", "--depth", help="Fuzzing depth levels (default: 2)", type=int, default=2)
     parser.add_argument("-o", "--output", help="Output report filename", default="report.html")
+    parser.add_argument("--smart-detect", help="Enable smart size detection to bypass catch-all servers", action="store_true", default=False)
+    parser.add_argument("--hash-detect", help="Enable hash-based detection to bypass catch-all servers (more accurate)", action="store_true", default=False)
     
     args = parser.parse_args()
     target_url = args.url
@@ -55,7 +57,7 @@ def main():
                 
         # --- PHASE 2: DIRECTORY FUZZING ---
         print(f"\n{Fore.MAGENTA}[--- PHASE 2: DIRECTORY/FILE FUZZING ---]")
-        fuzz_results = run_fuzzer(target_url, args.wordlist, args.threads, args.depth)
+        fuzz_results = run_fuzzer(target_url, args.wordlist, args.threads, args.depth, args.smart_detect, args.hash_detect)
         
         # --- SUMMARY ---
         print(f"\n{Fore.BLUE}" + "=" * 60)

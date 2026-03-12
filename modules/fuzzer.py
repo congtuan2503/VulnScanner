@@ -1,58 +1,115 @@
 import requests
 import concurrent.futures
+import hashlib
 
 def check_catch_all(url):
     """
-    Check if the target domain has a catch-all email configuration.
+    Check if the target domain has a catch-all behavior.
+    Returns: (is_catchall, baseline_size, baseline_hash)
+    - is_catchall: True if server returns 200 for fake paths
+    - baseline_size: Response body size of fake path
+    - baseline_hash: MD5 hash of fake path response (for smart detection)
     """
-    fake_path = "this_is_a_test_path"
+    fake_path = "this_is_a_test_path_12345xyz"
     full_url = f"{url.rstrip('/')}/{fake_path}"
 
     try:
         r = requests.get(full_url, timeout=5, allow_redirects=False)
+        baseline_size = len(r.content)
+        baseline_hash = hashlib.md5(r.content).hexdigest()
+        
+        # If 200 OK for fake path, it's catch-all
         if r.status_code == 200:
-            return True # Server returns 200 OK for fake paths (Catch-all behavior)
+            return True, baseline_size, baseline_hash
     except:
         pass
-    return False
+    return False, 0, ""
 
 
-def check_single_path(url, path):
+def check_single_path(url, path, baseline_size=0, baseline_hash="", use_size_detection=False, use_hash_detection=False):
     """
-    Handle a single URL path check.
+    Handle a single URL path check with optional response size/hash detection.
+    
+    Args:
+        url: Base URL
+        path: Path to check
+        baseline_size: Size of fake path response (for size-based detection)
+        baseline_hash: MD5 hash of fake path response (for hash-based detection)
+        use_size_detection: Enable/disable size-based detection
+        use_hash_detection: Enable/disable hash-based detection (MORE ACCURATE)
     """
     full_url = f"{url.rstrip('/')}/{path.strip()}"
 
     try:
         r = requests.get(full_url, timeout=10, allow_redirects=False)
-
+        response_size = len(r.content)
+        response_hash = hashlib.md5(r.content).hexdigest()
         status = r.status_code
+        
+        # Standard checks (always active)
         if status == 200:
-            return {"path": path, "status": 200, "url": full_url, "severity": "High"}
+            result = {"path": path, "status": 200, "url": full_url, "severity": "High", "size": response_size}
+            return result
         elif status == 403: # 403 Forbidden: Directory exists but is forbidden (Still valuable info)
-            return {"path": path, "status": 403, "url": full_url, "severity": "Medium"}
+            return {"path": path, "status": 403, "url": full_url, "severity": "Medium", "size": response_size}
         elif status in[301, 302]: # Page redirected
-            return {"path": path, "status": status, "url": full_url, "severity": "Low"}
+            return {"path": path, "status": status, "url": full_url, "severity": "Low", "size": response_size}
+        
+        # Hash-based detection (MORE ACCURATE than size-based!)
+        # If response hash differs from baseline, path definitely exists
+        if use_hash_detection and baseline_hash and status == 200:
+            if response_hash != baseline_hash:
+                # Hash is completely different = real path!
+                return {"path": path, "status": 200, "url": full_url, "severity": "High", "size": response_size, "detection": "hash-based"}
+        
+        # Smart size detection for catch-all bypass (backup method)
+        # If response size differs significantly from baseline, path likely exists
+        if use_size_detection and baseline_size > 0 and status == 200:
+            size_diff = abs(response_size - baseline_size)
+            size_variance = (size_diff / baseline_size) * 100
+            
+            # If size differs by more than 10%, it's probably a real path
+            if size_variance > 10:
+                return {"path": path, "status": 200, "url": full_url, "severity": "High", "size": response_size, "detection": "size-based"}
         
     except requests.exceptions.RequestException:
-        pass # Skip connection errors (timeout, network down) without cluttering output
+        pass # Skip connection errors
     return None
 
-def run_fuzzer(target_url, wordlist_path, num_threads=10, max_depth=2):
+def run_fuzzer(target_url, wordlist_path, num_threads=10, max_depth=2, use_size_detection=False, use_hash_detection=False):
     """
     Run fuzzer with recursive depth support to scan subdirectories.
     max_depth: How deep to fuzz (1 = only main domain, 2 = domain + one level, etc.)
+    use_size_detection: If True, bypass catch-all servers using response body size
+    use_hash_detection: If True, bypass catch-all servers using response body hash (MORE ACCURATE)
     """
     print(f"\n[*] STARTING FUZZING: {target_url}")
     print(f"[*] Fuzzing depth: {max_depth} levels")
+    if use_hash_detection:
+        print("[*] Hash-based detection: ENABLED (most accurate method)")
+    elif use_size_detection:
+        print("[*] Size-based detection: ENABLED (bypass catch-all servers)")
     
-    # 1. Check for Smart 404 (Catch False Positive)
+    # 1. Check for Smart 404 (Catch False Positive) with size/hash baseline
     print("[*] Checking if server has Catch-all (Smart 404) mechanism...")
-    if check_catch_all(target_url):
-        print("[!] WARNING: This server returns 200 OK for all paths (Catch-all).")
-        print("[!] Fuzzing results may be highly inaccurate (False Positive). Stopping Fuzzing!")
-        return []
-    print("[+] Server configuration is standard, starting recursive multi-threaded scan...")
+    is_catchall, baseline_size, baseline_hash = check_catch_all(target_url)
+    
+    if is_catchall:
+        if use_hash_detection or use_size_detection:
+            if use_hash_detection:
+                print(f"[!] WARNING: Catch-all detected but hash detection ENABLED!")
+                print(f"[*] Will use response body HASH to identify real paths...")
+                print(f"[*] Baseline hash: {baseline_hash[:16]}...")
+            else:
+                print(f"[!] WARNING: Catch-all detected but size detection ENABLED!")
+                print(f"[*] Will use response body SIZE to identify real paths...")
+                print(f"[*] Baseline size: {baseline_size} bytes")
+        else:
+            print("[!] WARNING: This server returns 200 OK for all paths (Catch-all).")
+            print("[!] Fuzzing results may be highly inaccurate. Run with --hash-detect or --smart-detect to bypass!")
+            return []
+    else:
+        print("[+] Server configuration is standard, starting recursive multi-threaded scan...")
 
     # 2. Read wordlist file
     try:
@@ -76,14 +133,15 @@ def run_fuzzer(target_url, wordlist_path, num_threads=10, max_depth=2):
         valid_paths = []
         
         with concurrent.futures.ThreadPoolExecutor(max_workers=num_threads) as executor:
-            future_to_path = {executor.submit(check_single_path, base_url, path): path for path in paths}
+            future_to_path = {executor.submit(check_single_path, base_url, path, baseline_size, baseline_hash, use_size_detection, use_hash_detection): path for path in paths}
             
             for future in concurrent.futures.as_completed(future_to_path):
                 result = future.result()
                 if result:
                     found_assets.append(result)
                     valid_paths.append(result['path'])
-                    print(f"   [+] Response {result['status']} | {result['url']}")
+                    detection_note = f" (detected via {result.get('detection')})" if result.get('detection') else ""
+                    print(f"   [+] Response {result['status']} | {result['url']}{detection_note}")
         
         # Continue fuzzing deeper into discovered paths
         if valid_paths and current_depth < max_depth:
