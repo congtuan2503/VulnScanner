@@ -4,13 +4,18 @@ import os
 from colorama import init, Fore, Style
 from modules.scanner import check_security_headers
 from modules.fuzzer import run_fuzzer
-from modules.reporter import generate_html_report
+
+# Try to import reporter, but make it optional (jinja2 may not be installed)
+try:
+    from modules.reporter import generate_html_report
+except ImportError:
+    generate_html_report = None
 
 # Khởi tạo colorama (autoreset=True để màu tự reset sau mỗi dòng print)
 init(autoreset=True)
 
 def print_banner():
-    banner = f"""{Fore.CYAN}{Style.BRIGHT}
+    banner = rf"""{Fore.CYAN}{Style.BRIGHT}
   _   _       _          _____                                  
  | | | |     | |        / ____|                                 
  | | | |_   _| | _ __  | (___   ___ __ _ _ __  _ __   ___ _ __  
@@ -75,7 +80,10 @@ def main():
         print(f"{Fore.BLUE}" + "=" * 60)
 
         # --- PHASE 3: REPORTING ---
-        generate_html_report(target_url, scan_results, fuzz_results, args.output)
+        if generate_html_report:
+            generate_html_report(target_url, scan_results, fuzz_results, args.output)
+        else:
+            print(f"{Fore.YELLOW}[*] HTML report generation skipped (jinja2 not installed)")
 
     except KeyboardInterrupt:
         # Xử lý khi người dùng bấm Ctrl+C (Graceful Exit)

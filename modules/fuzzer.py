@@ -26,7 +26,7 @@ def check_catch_all(url):
     return False, 0, ""
 
 
-def check_single_path(url, path, baseline_size=0, baseline_hash="", use_size_detection=False, use_hash_detection=False):
+def check_single_path(url, path, baseline_size=0, baseline_hash="", use_size_detection=False, use_hash_detection=False, is_catchall=False):
     """
     Handle a single URL path check with optional response size/hash detection.
     
@@ -37,6 +37,7 @@ def check_single_path(url, path, baseline_size=0, baseline_hash="", use_size_det
         baseline_hash: MD5 hash of fake path response (for hash-based detection)
         use_size_detection: Enable/disable size-based detection
         use_hash_detection: Enable/disable hash-based detection (MORE ACCURATE)
+        is_catchall: Whether the server is detected as catch-all
     """
     full_url = f"{url.rstrip('/')}/{path.strip()}"
 
@@ -46,31 +47,39 @@ def check_single_path(url, path, baseline_size=0, baseline_hash="", use_size_det
         response_hash = hashlib.md5(r.content).hexdigest()
         status = r.status_code
         
-        # Standard checks (always active)
-        if status == 200:
-            result = {"path": path, "status": 200, "url": full_url, "severity": "High", "size": response_size}
-            return result
-        elif status == 403: # 403 Forbidden: Directory exists but is forbidden (Still valuable info)
+        # 403 Forbidden: Directory exists but is forbidden (Always valid regardless of catch-all)
+        if status == 403:
             return {"path": path, "status": 403, "url": full_url, "severity": "Medium", "size": response_size}
-        elif status in[301, 302]: # Page redirected
+        
+        # 301/302 Redirects: Structural information (Always valid)
+        if status in [301, 302]:
             return {"path": path, "status": status, "url": full_url, "severity": "Low", "size": response_size}
         
-        # Hash-based detection (MORE ACCURATE than size-based!)
-        # If response hash differs from baseline, path definitely exists
-        if use_hash_detection and baseline_hash and status == 200:
-            if response_hash != baseline_hash:
-                # Hash is completely different = real path!
-                return {"path": path, "status": 200, "url": full_url, "severity": "High", "size": response_size, "detection": "hash-based"}
-        
-        # Smart size detection for catch-all bypass (backup method)
-        # If response size differs significantly from baseline, path likely exists
-        if use_size_detection and baseline_size > 0 and status == 200:
-            size_diff = abs(response_size - baseline_size)
-            size_variance = (size_diff / baseline_size) * 100
+        # For 200 responses, apply smart detection if catch-all is detected
+        if status == 200:
+            # If catch-all server detected, MUST use intelligent detection
+            if is_catchall and (use_hash_detection or use_size_detection):
+                # Hash-based detection (MOST ACCURATE - compare content hash)
+                if use_hash_detection and baseline_hash:
+                    if response_hash != baseline_hash:
+                        # Hash is completely different = real path! ✅
+                        return {"path": path, "status": 200, "url": full_url, "severity": "High", "size": response_size, "detection": "hash-based"}
+                
+                # Size-based detection (FALLBACK - compare content size)
+                if use_size_detection and baseline_size > 0:
+                    size_diff = abs(response_size - baseline_size)
+                    size_variance = (size_diff / baseline_size) * 100
+                    
+                    # If size differs by more than 10%, it's probably a real path ✅
+                    if size_variance > 10:
+                        return {"path": path, "status": 200, "url": full_url, "severity": "High", "size": response_size, "detection": "size-based"}
+                
+                # If catch-all detected but no detection method passed, skip this path
+                return None
             
-            # If size differs by more than 10%, it's probably a real path
-            if size_variance > 10:
-                return {"path": path, "status": 200, "url": full_url, "severity": "High", "size": response_size, "detection": "size-based"}
+            # Normal server (no catch-all): 200 OK is always valid ✅
+            else:
+                return {"path": path, "status": 200, "url": full_url, "severity": "High", "size": response_size}
         
     except requests.exceptions.RequestException:
         pass # Skip connection errors
@@ -133,7 +142,7 @@ def run_fuzzer(target_url, wordlist_path, num_threads=10, max_depth=2, use_size_
         valid_paths = []
         
         with concurrent.futures.ThreadPoolExecutor(max_workers=num_threads) as executor:
-            future_to_path = {executor.submit(check_single_path, base_url, path, baseline_size, baseline_hash, use_size_detection, use_hash_detection): path for path in paths}
+            future_to_path = {executor.submit(check_single_path, base_url, path, baseline_size, baseline_hash, use_size_detection, use_hash_detection, is_catchall): path for path in paths}
             
             for future in concurrent.futures.as_completed(future_to_path):
                 result = future.result()
