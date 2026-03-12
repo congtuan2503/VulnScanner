@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pentest Report</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; }
+        .header { background-color: #2c3e50; color: white; padding: 20px 0; text-align: center; margin-bottom: 30px;}
+        .severity-High { color: #dc3545; font-weight: bold; }
+        .severity-Medium { color: #fd7e14; font-weight: bold; }
+        .severity-Low { color: #0dcaf0; font-weight: bold; }
+        .card { box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin-bottom: 30px; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Automated Security Scan Report</h1>
+        <p>Target: <strong>https://demo.owasp-juice.shop</strong> | Scan Date: 2026-03-12 17:29:31</p>
+    </div>
+
+    <div class="container">
+        <!-- Section 1: Misconfigurations -->
+        <div class="card">
+            <div class="card-header bg-dark text-white">
+                <h4>1. Security Misconfigurations & Headers</h4>
+            </div>
+            <div class="card-body">
+                
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Vulnerability Type</th>
+                            <th>Description</th>
+                            <th>Severity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        <tr>
+                            <td>Server Version Leaked</td>
+                            <td>Server version detected: Heroku</td>
+                            <td class="severity-Medium">Medium</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Missing Strict-Transport-Security</td>
+                            <td>Website is missing Strict-Transport-Security header, which may lead to frontend security risks.</td>
+                            <td class="severity-Low">Low</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Missing X-Frame-Options</td>
+                            <td>Website is missing X-Frame-Options header, which may lead to frontend security risks.</td>
+                            <td class="severity-Low">Low</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Missing Content-Security-Policy</td>
+                            <td>Website is missing Content-Security-Policy header, which may lead to frontend security risks.</td>
+                            <td class="severity-Low">Low</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+                
+            </div>
+        </div>
+
+        <!-- Section 2: Discovered Assets -->
+        <div class="card">
+            <div class="card-header bg-dark text-white">
+                <h4>2. Discovered Hidden Assets (Directories & Files)</h4>
+            </div>
+            <div class="card-body">
+                
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Status Code</th>
+                            <th>Asset URL</th>
+                            <th>Severity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        <tr>
+                            <td><span class="badge bg-warning">403</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/.env.bak" target="_blank">https://demo.owasp-juice.shop/.env.bak</a></td>
+                            <td class="severity-Medium">Medium</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-warning">403</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/.htaccess" target="_blank">https://demo.owasp-juice.shop/.htaccess</a></td>
+                            <td class="severity-Medium">Medium</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-warning">403</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/htaccess.bak" target="_blank">https://demo.owasp-juice.shop/htaccess.bak</a></td>
+                            <td class="severity-Medium">Medium</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-warning">403</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/.bak" target="_blank">https://demo.owasp-juice.shop/.bak</a></td>
+                            <td class="severity-Medium">Medium</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-warning">403</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/wp-config.php.bak" target="_blank">https://demo.owasp-juice.shop/wp-config.php.bak</a></td>
+                            <td class="severity-Medium">Medium</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-warning">403</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/core" target="_blank">https://demo.owasp-juice.shop/core</a></td>
+                            <td class="severity-Medium">Medium</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onError" target="_blank">https://demo.owasp-juice.shop/onError</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onDrop" target="_blank">https://demo.owasp-juice.shop/onDrop</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onDurationchange" target="_blank">https://demo.owasp-juice.shop/onDurationchange</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onDragstart" target="_blank">https://demo.owasp-juice.shop/onDragstart</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onErrorUpdate" target="_blank">https://demo.owasp-juice.shop/onErrorUpdate</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onFilterchange" target="_blank">https://demo.owasp-juice.shop/onFilterchange</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onEmptied" target="_blank">https://demo.owasp-juice.shop/onEmptied</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onFocusin" target="_blank">https://demo.owasp-juice.shop/onFocusin</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onFinish" target="_blank">https://demo.owasp-juice.shop/onFinish</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onEnded" target="_blank">https://demo.owasp-juice.shop/onEnded</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onFocus" target="_blank">https://demo.owasp-juice.shop/onFocus</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onFocusout" target="_blank">https://demo.owasp-juice.shop/onFocusout</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onHashchange" target="_blank">https://demo.owasp-juice.shop/onHashchange</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onHelp" target="_blank">https://demo.owasp-juice.shop/onHelp</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onInputchange" target="_blank">https://demo.owasp-juice.shop/onInputchange</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onInput" target="_blank">https://demo.owasp-juice.shop/onInput</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onInvalid" target="_blank">https://demo.owasp-juice.shop/onInvalid</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onKeydown" target="_blank">https://demo.owasp-juice.shop/onKeydown</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onKeypress" target="_blank">https://demo.owasp-juice.shop/onKeypress</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onKeyup" target="_blank">https://demo.owasp-juice.shop/onKeyup</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onLast" target="_blank">https://demo.owasp-juice.shop/onLast</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onLoad" target="_blank">https://demo.owasp-juice.shop/onLoad</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onLoadeddata" target="_blank">https://demo.owasp-juice.shop/onLoadeddata</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onLoadedmetadata" target="_blank">https://demo.owasp-juice.shop/onLoadedmetadata</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onLoadstart" target="_blank">https://demo.owasp-juice.shop/onLoadstart</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onLosecapture" target="_blank">https://demo.owasp-juice.shop/onLosecapture</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onLoseCapture" target="_blank">https://demo.owasp-juice.shop/onLoseCapture</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onMousedown" target="_blank">https://demo.owasp-juice.shop/onMousedown</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onMouseleave" target="_blank">https://demo.owasp-juice.shop/onMouseleave</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onMouseenter" target="_blank">https://demo.owasp-juice.shop/onMouseenter</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onMouseout" target="_blank">https://demo.owasp-juice.shop/onMouseout</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onMousemove" target="_blank">https://demo.owasp-juice.shop/onMousemove</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onMouseover" target="_blank">https://demo.owasp-juice.shop/onMouseover</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onMouseup" target="_blank">https://demo.owasp-juice.shop/onMouseup</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onMousewheel" target="_blank">https://demo.owasp-juice.shop/onMousewheel</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onMove" target="_blank">https://demo.owasp-juice.shop/onMove</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onMoviestart" target="_blank">https://demo.owasp-juice.shop/onMoviestart</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onOffline" target="_blank">https://demo.owasp-juice.shop/onOffline</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onOutOfSync" target="_blank">https://demo.owasp-juice.shop/onOutOfSync</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onOnline" target="_blank">https://demo.owasp-juice.shop/onOnline</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onPause" target="_blank">https://demo.owasp-juice.shop/onPause</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onPaste" target="_blank">https://demo.owasp-juice.shop/onPaste</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onPlay" target="_blank">https://demo.owasp-juice.shop/onPlay</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onPlayback" target="_blank">https://demo.owasp-juice.shop/onPlayback</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onPlaying" target="_blank">https://demo.owasp-juice.shop/onPlaying</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onPopstate" target="_blank">https://demo.owasp-juice.shop/onPopstate</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onProgress" target="_blank">https://demo.owasp-juice.shop/onProgress</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onPropertychange" target="_blank">https://demo.owasp-juice.shop/onPropertychange</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onRatechange" target="_blank">https://demo.owasp-juice.shop/onRatechange</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onReadystatechange" target="_blank">https://demo.owasp-juice.shop/onReadystatechange</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onRedo" target="_blank">https://demo.owasp-juice.shop/onRedo</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onRepeat" target="_blank">https://demo.owasp-juice.shop/onRepeat</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onReset" target="_blank">https://demo.owasp-juice.shop/onReset</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onResize" target="_blank">https://demo.owasp-juice.shop/onResize</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onResizeend" target="_blank">https://demo.owasp-juice.shop/onResizeend</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onResizestart" target="_blank">https://demo.owasp-juice.shop/onResizestart</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onRowInserted" target="_blank">https://demo.owasp-juice.shop/onRowInserted</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onRowDelete" target="_blank">https://demo.owasp-juice.shop/onRowDelete</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onResume" target="_blank">https://demo.owasp-juice.shop/onResume</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onScroll" target="_blank">https://demo.owasp-juice.shop/onScroll</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onRowsEnter" target="_blank">https://demo.owasp-juice.shop/onRowsEnter</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onSeek" target="_blank">https://demo.owasp-juice.shop/onSeek</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onSeeking" target="_blank">https://demo.owasp-juice.shop/onSeeking</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onSelectionchange" target="_blank">https://demo.owasp-juice.shop/onSelectionchange</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onSelect" target="_blank">https://demo.owasp-juice.shop/onSelect</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onSelectstart" target="_blank">https://demo.owasp-juice.shop/onSelectstart</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onStop" target="_blank">https://demo.owasp-juice.shop/onStop</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onStart" target="_blank">https://demo.owasp-juice.shop/onStart</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onStorage" target="_blank">https://demo.owasp-juice.shop/onStorage</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onSubmit" target="_blank">https://demo.owasp-juice.shop/onSubmit</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onSuspend" target="_blank">https://demo.owasp-juice.shop/onSuspend</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onSyncrestored" target="_blank">https://demo.owasp-juice.shop/onSyncrestored</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onToggle" target="_blank">https://demo.owasp-juice.shop/onToggle</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onTimeupdate" target="_blank">https://demo.owasp-juice.shop/onTimeupdate</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onTouchcancel" target="_blank">https://demo.owasp-juice.shop/onTouchcancel</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onTouchmove" target="_blank">https://demo.owasp-juice.shop/onTouchmove</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onTouchend" target="_blank">https://demo.owasp-juice.shop/onTouchend</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onTouchstart" target="_blank">https://demo.owasp-juice.shop/onTouchstart</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onTrackchange" target="_blank">https://demo.owasp-juice.shop/onTrackchange</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onUndo" target="_blank">https://demo.owasp-juice.shop/onUndo</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onUnload" target="_blank">https://demo.owasp-juice.shop/onUnload</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onUrlflip" target="_blank">https://demo.owasp-juice.shop/onUrlflip</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onVolumechange" target="_blank">https://demo.owasp-juice.shop/onVolumechange</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onWaiting" target="_blank">https://demo.owasp-juice.shop/onWaiting</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/administrator/index.php" target="_blank">https://demo.owasp-juice.shop/administrator/index.php</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/administrator/login.php" target="_blank">https://demo.owasp-juice.shop/administrator/login.php</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/administrator/" target="_blank">https://demo.owasp-juice.shop/administrator/</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/administrator/config.php" target="_blank">https://demo.owasp-juice.shop/administrator/config.php</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/xmlrpc.php" target="_blank">https://demo.owasp-juice.shop/xmlrpc.php</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/onReverse" target="_blank">https://demo.owasp-juice.shop/onReverse</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/wp-login.php" target="_blank">https://demo.owasp-juice.shop/wp-login.php</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/wp-admin/" target="_blank">https://demo.owasp-juice.shop/wp-admin/</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/wp-content/plugins" target="_blank">https://demo.owasp-juice.shop/wp-content/plugins</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/wp-includes/" target="_blank">https://demo.owasp-juice.shop/wp-includes/</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/wp-content/themes" target="_blank">https://demo.owasp-juice.shop/wp-content/themes</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/jquery.js" target="_blank">https://demo.owasp-juice.shop/jquery.js</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/jquery" target="_blank">https://demo.owasp-juice.shop/jquery</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/jquery.min.js" target="_blank">https://demo.owasp-juice.shop/jquery.min.js</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/jquery-ui.min.js" target="_blank">https://demo.owasp-juice.shop/jquery-ui.min.js</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/jquery-ui.js" target="_blank">https://demo.owasp-juice.shop/jquery-ui.js</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/bootstrap" target="_blank">https://demo.owasp-juice.shop/bootstrap</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/bootstrap.js" target="_blank">https://demo.owasp-juice.shop/bootstrap.js</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/bootstrap.min.js" target="_blank">https://demo.owasp-juice.shop/bootstrap.min.js</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/bootstrap.css" target="_blank">https://demo.owasp-juice.shop/bootstrap.css</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/bootstrap.min.css" target="_blank">https://demo.owasp-juice.shop/bootstrap.min.css</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/popper.js" target="_blank">https://demo.owasp-juice.shop/popper.js</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/bootstrap.bundle.min.js" target="_blank">https://demo.owasp-juice.shop/bootstrap.bundle.min.js</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/popper.min.js" target="_blank">https://demo.owasp-juice.shop/popper.min.js</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/moment.js" target="_blank">https://demo.owasp-juice.shop/moment.js</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/moment.min.js" target="_blank">https://demo.owasp-juice.shop/moment.min.js</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/axios.js" target="_blank">https://demo.owasp-juice.shop/axios.js</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/axios.min.js" target="_blank">https://demo.owasp-juice.shop/axios.min.js</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/fetch.js" target="_blank">https://demo.owasp-juice.shop/fetch.js</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/fetch.min.js" target="_blank">https://demo.owasp-juice.shop/fetch.min.js</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/lodash.js" target="_blank">https://demo.owasp-juice.shop/lodash.js</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/lodash.min.js" target="_blank">https://demo.owasp-juice.shop/lodash.min.js</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/underscore.js" target="_blank">https://demo.owasp-juice.shop/underscore.js</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/underscore.min.js" target="_blank">https://demo.owasp-juice.shop/underscore.min.js</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/backbone.js" target="_blank">https://demo.owasp-juice.shop/backbone.js</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/backbone.min.js" target="_blank">https://demo.owasp-juice.shop/backbone.min.js</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/react.js" target="_blank">https://demo.owasp-juice.shop/react.js</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/react.min.js" target="_blank">https://demo.owasp-juice.shop/react.min.js</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><span class="badge bg-danger">200</span></td>
+                            <td><a href="https://demo.owasp-juice.shop/react.production.min.js" target="_blank">https://demo.owasp-juice.shop/react.production.min.js</a></td>
+                            <td class="severity-High">High</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+                
+            </div>
+        </div>
+
+        <footer class="text-center text-muted mt-5 mb-4">
+            <small>Vulnerability Scanner | author: tunadafish</small>
+        </footer>
+    </div>
+
+</body>
+</html>
